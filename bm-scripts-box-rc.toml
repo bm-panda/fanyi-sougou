@@ -1,0 +1,25 @@
+[bmscriptsbox.info]
+id = "cdc0842f-d628-4395-a644-b7ace9b012b0"              
+name = "搜狗翻译"                                    
+desc = "搜狗翻译 - 选中文字快速翻译工具，PowerShell 脚本，通过不忙脚本盒子快速复制触发，自动打开搜狗翻译网页并带入文本，支持中英互译一键直达"                                  
+version = "0.1.2"                                        
+icon = "./imgs/sogou.png"   
+
+[bmscriptsbox.runtime]
+language = "powershell"
+language_version = ">=5.1"                  
+entry = "SogouTranslate.ps1"                   
+terminal = "never"                       
+
+[[bmscriptsbox.inputs]] 
+name = "translate_text"   
+type = "string"    
+exts = []     
+description = "需要翻译的文本内容"
+
+[bmscriptsbox.triggers.quick_copy]                              
+enabled = true    
+
+
+
+
