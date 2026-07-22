@@ -1,0 +1,11 @@
+[project]
+name = "bumang_fanyi"
+version = "1.0.0"
+description = "极简的多语言翻译脚本、提供美观的窗口、搭配不忙脚本盒子可实现复制文本直接实现翻译"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pyside2",
+    "xsideui",
+    "requests",
+]
