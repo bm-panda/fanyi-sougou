@@ -1,24 +1,71 @@
 [bmscriptsbox.info]
-id = "cdc0842f-d628-4395-a644-b7ace9b012b0"              
+id = "cdc0842f-d628-4395-a644-b7ace9b012b0"
 name = "不忙翻译"
-desc = "极简的多语言翻译脚本软件、提供美观的窗口、搭配不忙脚本盒子可实现复制文本直接实现翻译"
-version = "1.0.0"
+desc = "多语言翻译工具 | 支持在线接口和本地 AI 离线翻译双引擎,中英互译,支持在线 21 种 / 离线 38 种语言，兼容不忙脚本盒子，复制文本双击 Ctrl+C 直接出译文, 免登录、断网也能翻译"
+version = "2.2.0"
 icon = "./images/fanyi.png"
 
 [bmscriptsbox.runtime]
 language = "python"
-language_version = ">=3.8"
-entry = "fanyi.py"
-terminal = "never"                       
+language_version = ">=3.10"
+entry = "main.py"
+terminal = "never"
 
-[[bmscriptsbox.inputs]] 
-name = "translate_text"   
-type = "text"
-description = "需要翻译的文本内容"
+[[bmscriptsbox.inputs]]
+name = "translate_text"
+label = "待译文本"
+type = "str"
+description = "需要翻译的文本内容；节点调用时把原文放这里"
 
-[bmscriptsbox.triggers.quick_copy]                              
-enabled = true    
+[[bmscriptsbox.outputs]]
+name = "translated_text"
+type = "str"
+description = "译文全文"
 
+[[bmscriptsbox.outputs]]
+name = "engine"
+type = "str"
+description = "实际使用的引擎：online / offline。指定的语言不被该引擎支持时会自动换另一个引擎"
 
+[[bmscriptsbox.outputs]]
+name = "target_lang"
+type = "str"
+description = "实际的目标语言名称，如 中文 / 英文"
 
+[[bmscriptsbox.params]]
+name = "engine"
+label = "引擎"
+type = "str"
+default = "online"
+choices = ["online", "offline"]
+choice_labels = { online = "在线（快速）", offline = "本地 AI（离线）" }
+description = "online = 搜狗在线接口（需联网，21 种语言）；offline = 本地 Hy-MT2 模型（38 种语言）"
 
+[[bmscriptsbox.params]]
+name = "from_lang"
+label = "源语言"
+type = "str"
+default = "自动识别"
+choices = ["自动识别", "中文", "英文", "日语", "韩语", "法语", "德语", "俄语", "西班牙语", "葡萄牙语", "意大利语", "荷兰语", "波兰语", "捷克语", "土耳其语", "阿拉伯语", "泰语", "越南语", "芬兰语", "瑞典语", "丹麦语", "匈牙利语", "繁体中文", "粤语", "马来语", "印尼语", "菲律宾语", "印地语", "高棉语", "缅甸语", "波斯语", "古吉拉特语", "乌尔都语", "泰卢固语", "马拉地语", "希伯来语", "孟加拉语", "泰米尔语", "乌克兰语", "藏语", "哈萨克语", "蒙古语", "维吾尔语"]
+description = "源语言；自动识别 = 交给引擎判断"
+
+[[bmscriptsbox.params]]
+name = "to_lang"
+label = "目标语言"
+type = "str"
+default = "中文"
+choices = ["中文", "英文", "日语", "韩语", "法语", "德语", "俄语", "西班牙语", "葡萄牙语", "意大利语", "荷兰语", "波兰语", "捷克语", "土耳其语", "阿拉伯语", "泰语", "越南语", "芬兰语", "瑞典语", "丹麦语", "匈牙利语", "繁体中文", "粤语", "马来语", "印尼语", "菲律宾语", "印地语", "高棉语", "缅甸语", "波斯语", "古吉拉特语", "乌尔都语", "泰卢固语", "马拉地语", "希伯来语", "孟加拉语", "泰米尔语", "乌克兰语", "藏语", "哈萨克语", "蒙古语", "维吾尔语"]
+description = "目标语言；两个引擎支持范围不同，指定语言不被所选引擎支持时会自动换引擎"
+
+[bmscriptsbox.triggers.quick_copy]
+enabled = true
+
+# 作为节点被其他脚本通过 /api/link 调用（invoke_mode == "node" 时无声跑完并回传信封）
+[bmscriptsbox.node]
+enabled = true
+
+# 本地 AI 引擎用的离线模型（腾讯混元机器翻译，Q4_K_M 量化，约 1.13GB）
+[[bmscriptsbox.models]]
+source = "huggingface"
+repo_id = "tencent/Hy-MT2-1.8B-GGUF"
+files = ["Hy-MT2-1.8B-Q4_K_M.gguf"]
